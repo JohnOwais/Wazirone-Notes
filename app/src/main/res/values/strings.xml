@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Wazirone Notes</string>
+    <string name="add_note">Add Note</string>
+    <string name="empty_notepad">Empty Notepad</string>
+    <string name="title">Title</string>
+    <string name="tagline">Tagline</string>
+    <string name="body">Description (body)</string>
+    <string name="add_note_caps">ADD NOTE</string>
 </resources>
