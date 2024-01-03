@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "979529170382",
+    "project_id": "wazirone-notes",
+    "storage_bucket": "wazirone-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979529170382:android:ccc9c4304aa81ec46b7f9f",
+        "android_client_info": {
+          "package_name": "com.owaisyosuf.wazironenotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCUpENLcMc8RLk46KgCIugEUzpuzhdlCs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
