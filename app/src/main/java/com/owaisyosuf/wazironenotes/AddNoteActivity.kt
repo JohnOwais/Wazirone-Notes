@@ -7,6 +7,7 @@ import android.os.Handler
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.FirebaseDatabase
@@ -91,5 +92,12 @@ class AddNoteActivity : AppCompatActivity() {
                 true
             }
         }
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                startActivity(Intent(this@AddNoteActivity, MainActivity::class.java))
+                finish()
+            }
+        }
+        onBackPressedDispatcher.addCallback(onBackPressedCallback)
     }
 }

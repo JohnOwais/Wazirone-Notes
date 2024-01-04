@@ -66,6 +66,7 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
             bundle.putBoolean("isPinned", note.isPinned)
             intent.putExtras(bundle)
             context.startActivity(intent)
+            activity.finish()
         }
         vh.cardLayout.setOnLongClickListener {
             val builder = AlertDialog.Builder(
