@@ -35,11 +35,12 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         val manager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = manager
-        adapter = RVAdapter(this)
+        adapter = RVAdapter(this, this)
         recyclerView.adapter = adapter
         loadNotes()
         addNote.setOnClickListener {
             startActivity(Intent(this, AddNoteActivity::class.java))
+            finish()
         }
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

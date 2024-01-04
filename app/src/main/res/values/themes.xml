@@ -1,7 +1,13 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.WazironeNotes" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">#101010</item>
         <item name="colorPrimaryDark">#33000000</item>
+    </style>
+
+    <style name="ThemeOverlay.MaterialComponents.MaterialAlertDialog_Background" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorOnSurface">#101010</item>
+        <item name="android:background">#EBEBEB</item>
     </style>
 
     <style name="Theme.WazironeNotes" parent="Base.Theme.WazironeNotes" />
