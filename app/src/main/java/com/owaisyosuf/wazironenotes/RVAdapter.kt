@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,11 +23,20 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
     fun post(listItems: ArrayList<Notes>, noteKeys: ArrayList<String>) {
         list.addAll(listItems)
         keys.addAll(noteKeys)
+        sort(list, keys)
     }
 
-    fun clear() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun sort(list: ArrayList<Notes>, keys: ArrayList<String>) {
+        val combinedList = list.zip(keys)
+        val sortedList = combinedList.sortedByDescending { it.first.isPinned }
         list.clear()
         keys.clear()
+        for ((note, key) in sortedList) {
+            list.add(note)
+            keys.add(key)
+        }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -57,8 +65,7 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
             } else {
                 vh.pinned.setImageResource(R.drawable.un_pinned)
             }
-            list.sortWith(compareByDescending { it.isPinned })
-            notifyDataSetChanged()
+            sort(list, keys)
         }
         vh.cardLayout.setOnClickListener {
             val intent = Intent(context, AddNoteActivity::class.java)
@@ -88,10 +95,9 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
                 snackBar.setBackgroundTint(Color.parseColor("#F44336"))
                 snackBar.setTextColor(Color.parseColor("#FFFFFFFF"))
                 snackBar.show()
-                Handler(activity.mainLooper).postDelayed({
-                    activity.startActivity(Intent(activity, MainActivity::class.java))
-                    activity.finish()
-                }, 2000)
+                list.remove(note)
+                keys.remove(key)
+                notifyDataSetChanged()
             }
             builder.setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()
@@ -110,7 +116,6 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
             }
             return@setOnLongClickListener true
         }
-        list.sortWith(compareByDescending { it.isPinned })
     }
 
     override fun getItemCount(): Int {

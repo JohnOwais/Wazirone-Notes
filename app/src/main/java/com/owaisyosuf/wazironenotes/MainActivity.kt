@@ -4,11 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -19,16 +19,16 @@ import com.google.firebase.database.getValue
 
 class MainActivity : AppCompatActivity() {
     private val databaseReference = FirebaseDatabase.getInstance().getReference("Notes")
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var progressBar: ProgressBar
     private lateinit var adapter: RVAdapter
     private lateinit var emptyNotepad: TextView
-    private var key: String = "null"
-    var isLoading = false
+    private var key = "null"
+    private var isLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        swipeRefreshLayout = findViewById(R.id.swipe)
+        progressBar = findViewById(R.id.loadingProgressBar)
         emptyNotepad = findViewById(R.id.empty_notepad)
         val recyclerView: RecyclerView = findViewById(R.id.rv)
         val addNote: ExtendedFloatingActionButton = findViewById(R.id.add_note)
@@ -61,16 +61,11 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-        swipeRefreshLayout.setOnRefreshListener {
-            key = "null"
-            adapter.clear()
-            loadNotes()
-        }
     }
 
     private fun loadNotes() {
+        progressBar.visibility = View.VISIBLE
         var isEmpty = false
-        swipeRefreshLayout.isRefreshing = true
         val database: Query
         if (key == "null") {
             isEmpty = true
@@ -90,13 +85,13 @@ class MainActivity : AppCompatActivity() {
                         notes.add(note)
                         noteKeys.add(dataSnapshot.key.toString())
                         isEmpty = false
+                        key = dataSnapshot.key.toString()
                     }
-                    key = dataSnapshot.key.toString()
                 }
                 adapter.post(notes, noteKeys)
                 adapter.notifyDataSetChanged()
                 isLoading = false
-                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
                 if (isEmpty)
                     emptyNotepad.visibility = View.VISIBLE
                 else
@@ -104,7 +99,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                swipeRefreshLayout.isRefreshing = false
+                progressBar.visibility = View.GONE
             }
         })
     }
