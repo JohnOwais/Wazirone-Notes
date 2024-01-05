@@ -1,5 +1,6 @@
 package com.owaisyosuf.wazironenotes
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -35,6 +36,7 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
         return NotesVH(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val vh = holder as NotesVH
         val note = list[position]
@@ -55,6 +57,8 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
             } else {
                 vh.pinned.setImageResource(R.drawable.un_pinned)
             }
+            list.sortWith(compareByDescending { it.isPinned })
+            notifyDataSetChanged()
         }
         vh.cardLayout.setOnClickListener {
             val intent = Intent(context, AddNoteActivity::class.java)
@@ -106,6 +110,7 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
             }
             return@setOnLongClickListener true
         }
+        list.sortWith(compareByDescending { it.isPinned })
     }
 
     override fun getItemCount(): Int {
