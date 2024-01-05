@@ -85,8 +85,8 @@ class RVAdapter(private val context: Context, private val activity: Activity) :
                     "Note Deleted",
                     Snackbar.LENGTH_SHORT
                 )
-                snackBar.setBackgroundTint(activity.resources.getColor(R.color.red))
-                snackBar.setTextColor(activity.resources.getColor(R.color.white))
+                snackBar.setBackgroundTint(Color.parseColor("#F44336"))
+                snackBar.setTextColor(Color.parseColor("#FFFFFFFF"))
                 snackBar.show()
                 Handler(activity.mainLooper).postDelayed({
                     activity.startActivity(Intent(activity, MainActivity::class.java))
